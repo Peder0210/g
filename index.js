@@ -28,6 +28,14 @@ const authMiddleware = require('./middleware/authMiddleware');
 const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware');
 const logoutController = require('./controllers/logout');
 const flash = require('connect-flash');
+let port = process.env.PORT ;
+if(port == null || port == ""){
+    port = 4000;
+}
+
+app.listen(port,() =>{
+    console.log('App listening on port 4000')
+});
 app.use(flash());
 global.loggedIn = null;
 app.use(fileUpload());
@@ -45,14 +53,7 @@ app.use('*', (req, res, next)=>{
     });
 app.set('view engine','ejs');
 app.use(express.static('puplic'));
-let port = process.env.PORT ;
-if(port == null || port == ""){
-    port = 4000;
-}
 
-app.listen(port,() =>{
-    console.log('App listening on port 4000')
-});
 app.get('/',homeController);
 
 

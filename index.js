@@ -5,10 +5,7 @@ mongoose.connect('mongodb+srv://Peder:0210db@cluster0-44h0p.mongodb.net/my_datab
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-const customMiddleWare = (req,res,next) =>{
-    console.log('Custom middle ware called');
-    next()
-};
+
 const validateMiddleWare = (req,res,next)=>{
     if(req.files == null || req.body.title == null || req.body.title == null){
         return res.redirect('/posts/new')
@@ -34,7 +31,7 @@ global.loggedIn = null;
 app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(customMiddleWare);
+
 app.use('/posts/store',validateMiddleWare);
 app.use(expressSession({
     secret: 'keyboard cat'
@@ -46,9 +43,8 @@ app.use('*', (req, res, next)=>{
     });
 app.set('view engine','ejs');
 app.use(express.static('puplic'));
-app.listen(4000, () => {
-    console.log('App listening on port 4000')
-})
+let port = process.env.PORT;
+
 app.get('/',homeController);
 
 
